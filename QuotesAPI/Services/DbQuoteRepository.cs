@@ -12,6 +12,11 @@ public class DbQuoteRepository : IQuoteRepository
         _db = db;
     }
 
+    public async Task<Quote?> ReadAsync(int id)
+    {
+        return await _db.Quotes.FindAsync(id);
+    }
+
     public async Task<ICollection<Quote>> ReadAllAsync()
     {
         return await _db.Quotes.ToListAsync();

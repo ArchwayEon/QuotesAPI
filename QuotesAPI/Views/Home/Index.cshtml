@@ -3,7 +3,15 @@
 }
 
 <h1>Welcome to the @ViewData["Title"]</h1>
-
+A Quote JSON object is represented by:
+<code><pre>
+    {
+        "id":&lt;integer&gt;,
+        "theQuote":&lt;text&gt;,
+        "whoSaidIt":&lt;text&gt;,
+    }
+</pre>
+</code>
 <table class="table">
     <thead>
         <tr>
@@ -34,6 +42,20 @@
             </td>
             <td>
                 Array of Quotes
+            </td>
+        </tr>
+        <tr>
+            <td>
+                GET /api/quote/one/<b>{id}</b>
+            </td>
+            <td>
+                Get one quote
+            </td>
+            <td>
+                None
+            </td>
+            <td>
+                Quote object
             </td>
         </tr>
     </tbody>

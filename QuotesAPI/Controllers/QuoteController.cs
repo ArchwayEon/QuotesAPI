@@ -22,4 +22,16 @@ public class QuoteController : ControllerBase
         return Ok(await _quoteRepo.ReadAllAsync());
     }
 
+    [HttpGet("one/{id}")]
+    public async Task<IActionResult> Get(int id)
+    {
+        var quote = await _quoteRepo.ReadAsync(id);
+        if (quote == null)
+        {
+            return NotFound();
+        }
+        return Ok(quote);
+    }
+
+
 }
