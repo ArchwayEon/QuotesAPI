@@ -28,4 +28,12 @@ public class DbQuoteRepository : IQuoteRepository
         await _db.SaveChangesAsync();
         return newQuote;
     }
+
+    public async Task UpdateAsync(int oldId, Quote updatedQuote)
+    {
+        Quote? quoteToUpdate = await ReadAsync(oldId);
+        quoteToUpdate!.TheQuote = updatedQuote.TheQuote;
+        quoteToUpdate!.WhoSaidIt = updatedQuote.WhoSaidIt;
+        await _db.SaveChangesAsync();
+    }
 }

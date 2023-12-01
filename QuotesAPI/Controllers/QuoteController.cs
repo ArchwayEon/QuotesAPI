@@ -47,4 +47,22 @@ public class QuoteController : ControllerBase
         return CreatedAtAction("Get", new { id = quote.Id }, quote);
     }
 
+    [HttpPut("update")]
+    public async Task<IActionResult> Put([FromForm] Quote quote)
+    {
+        if (String.IsNullOrWhiteSpace(quote.TheQuote) ||
+            String.IsNullOrEmpty(quote.WhoSaidIt))
+        {
+            return BadRequest("The quote is badly formatted!");
+        }
+        var chkQuote = await _quoteRepo.ReadAsync(quote.Id);
+        if (chkQuote == null)
+        {
+            return NotFound();
+        }
+        await _quoteRepo.UpdateAsync(quote.Id, quote);
+        return NoContent(); // 204 as per HTTP specification
+    }
+
+
 }
