@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuotesAPI.Models.Entities;
-using System.Security.Cryptography;
 
 namespace QuotesAPI.Services;
 
