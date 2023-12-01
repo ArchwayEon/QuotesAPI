@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using QuotesAPI.Models.Entities;
+using System.Security.Cryptography;
 
 namespace QuotesAPI.Services;
 
@@ -34,6 +35,13 @@ public class DbQuoteRepository : IQuoteRepository
         Quote? quoteToUpdate = await ReadAsync(oldId);
         quoteToUpdate!.TheQuote = updatedQuote.TheQuote;
         quoteToUpdate!.WhoSaidIt = updatedQuote.WhoSaidIt;
+        await _db.SaveChangesAsync();
+    }
+
+    public async Task DeleteAsync(int id)
+    {
+        Quote? quoteToDelete = await ReadAsync(id);
+        _db.Quotes.Remove(quoteToDelete!);
         await _db.SaveChangesAsync();
     }
 }

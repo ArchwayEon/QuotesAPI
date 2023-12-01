@@ -8,4 +8,5 @@ public interface IQuoteRepository
     Task<Quote?> ReadAsync(int id);
     Task<Quote> CreateAsync(Quote newQuote);
     Task UpdateAsync(int oldId,  Quote updatedQuote);
+    Task DeleteAsync(int id);
 }

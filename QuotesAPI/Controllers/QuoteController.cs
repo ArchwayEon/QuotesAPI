@@ -64,5 +64,15 @@ public class QuoteController : ControllerBase
         return NoContent(); // 204 as per HTTP specification
     }
 
-
+    [HttpDelete("delete/{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var chkQuote = await _quoteRepo.ReadAsync(id);
+        if (chkQuote == null)
+        {
+            return NotFound();
+        }
+        await _quoteRepo.DeleteAsync(id);
+        return NoContent(); // 204 as per HTTP specification
+    }
 }
