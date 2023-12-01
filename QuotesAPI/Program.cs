@@ -19,8 +19,10 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
        });
 });
-
+builder.Services.AddScoped<IQuoteRepository, DbQuoteRepository>();
+builder.Services.AddScoped<Initializer>();
 var app = builder.Build();
+await SeedDataAsync(app);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -43,3 +45,20 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
+
+static async Task SeedDataAsync(WebApplication app)
+{
+    using var scope = app.Services.CreateScope();
+    var services = scope.ServiceProvider;
+    try
+    {
+        var initializer = services.GetRequiredService<Initializer>();
+        await initializer.SeedQuotesAsync();
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError("An error occurred while seeding the database.");
+        logger.LogError("{message}", ex.Message);
+    }
+}
