@@ -21,4 +21,11 @@ public class DbQuoteRepository : IQuoteRepository
     {
         return await _db.Quotes.ToListAsync();
     }
+
+    public async Task<Quote> CreateAsync(Quote newQuote)
+    {
+        await _db.Quotes.AddAsync(newQuote);
+        await _db.SaveChangesAsync();
+        return newQuote;
+    }
 }

@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
+using QuotesAPI.Models.Entities;
 using QuotesAPI.Services;
+using System.Drawing;
 
 namespace QuotesAPI.Controllers;
 
@@ -33,5 +35,16 @@ public class QuoteController : ControllerBase
         return Ok(quote);
     }
 
+    [HttpPost("create")]
+    public async Task<IActionResult> Post([FromForm] Quote quote)
+    {
+        if(String.IsNullOrWhiteSpace(quote.TheQuote) || 
+            String.IsNullOrEmpty(quote.WhoSaidIt))
+        {
+            return BadRequest("The quote is badly formatted!");
+        }
+        await _quoteRepo.CreateAsync(quote);
+        return CreatedAtAction("Get", new { id = quote.Id }, quote);
+    }
 
 }
