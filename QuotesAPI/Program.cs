@@ -11,10 +11,17 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
                     .GetConnectionString("DefaultConnection")));
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(
+    options.AddPolicy("Postman",
        builder =>
        {
            builder.WithOrigins("https://web.postman.co")
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+       });
+    options.AddPolicy("LocalHost",
+       builder =>
+       {
+           builder.WithOrigins("<change this>")
                 .AllowAnyHeader()
                 .AllowAnyMethod();
        });
@@ -36,7 +43,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
-app.UseCors();
+app.UseCors("Postman"); // Postman is the default
 
 app.UseAuthorization();
 
